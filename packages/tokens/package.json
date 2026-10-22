@@ -3,5 +3,13 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "files": ["camo.tokens.json", "camo-base.css", "camo.config.schema.json"]
+  "files": [
+    "camo.tokens.json",
+    "camo-base.css",
+    "camo.config.schema.json"
+  ],
+  "devDependencies": {
+    "@tailwindcss/cli": "4.1.18",
+    "tailwindcss": "4.1.18"
+  }
 }
