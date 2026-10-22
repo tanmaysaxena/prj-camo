@@ -1,0 +1,7 @@
+{
+  "name": "@prj-camo/tokens",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "files": ["camo.tokens.json", "camo-base.css", "camo.config.schema.json"]
+}

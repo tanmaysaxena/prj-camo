@@ -1,0 +1,16 @@
+{
+  "name": "prj-camo",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Portable design system (skin, motion, layout, specs) with per-project override. Apache-2.0.",
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.base.json --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "5.6.3",
+    "vitest": "2.1.8",
+    "@types/node": "22.10.2"
+  }
+}
