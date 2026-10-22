@@ -645,6 +645,21 @@
       "kind": "duration",
       "value": "12s"
     },
+    "motion.duration.light_sweep_pass": {
+      "css": "--motion-duration-light-sweep-pass",
+      "kind": "duration",
+      "value": "0.7s"
+    },
+    "motion.duration.light_sweep_period": {
+      "css": "--motion-duration-light-sweep-period",
+      "kind": "duration",
+      "value": "5s"
+    },
+    "motion.delay.light_sweep_gap": {
+      "css": "--motion-delay-light-sweep-gap",
+      "kind": "duration",
+      "value": "0.18s"
+    },
     "motion.duration.collapse": {
       "css": "--motion-duration-collapse",
       "kind": "duration",

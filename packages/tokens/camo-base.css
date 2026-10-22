@@ -237,6 +237,9 @@
   --motion-easing-state: cubic-bezier(0.4, 0, 0.2, 1);
   --motion-duration-shader-fade: 500ms;
   --motion-duration-ticker: 12s;
+  --motion-duration-light-sweep-pass: 0.7s;
+  --motion-duration-light-sweep-period: 5s;
+  --motion-delay-light-sweep-gap: 0.18s;
   --motion-duration-collapse: 0.3s;
 
   /* Content-card hover (.card-fx): perspective depth of the tilt, and the
