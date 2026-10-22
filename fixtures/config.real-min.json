@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "camoVersion": "0.1.0",
+  "prefix": "mf",
+  "overrides": {
+    "color.surface.primary": "#181818",
+    "motion.duration.sheet": "0.35s"
+  }
+}

@@ -12,12 +12,12 @@
     "prefix": { "type": "string", "pattern": "^[a-z][a-z0-9]*$" },
     "overrides": {
       "type": "object",
-      "propertyNames": { "pattern": "^[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*$" },
+      "propertyNames": { "pattern": "^[A-Za-z0-9_]+(\\.[A-Za-z0-9_]+)*$" },
       "additionalProperties": { "type": ["string", "number"] }
     },
     "extend": {
       "type": "object",
-      "propertyNames": { "pattern": "^[a-z0-9]+(\\.[a-z0-9]+)*$" },
+      "propertyNames": { "pattern": "^[a-z0-9_]+(\\.[a-z0-9_]+)*$" },
       "additionalProperties": {
         "type": "object",
         "required": ["kind", "value"],

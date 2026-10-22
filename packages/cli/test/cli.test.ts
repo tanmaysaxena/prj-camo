@@ -69,7 +69,9 @@ describe.skipIf(!existsSync(realTokens))("against the real token file", () => {
     const out = join(dir, "o.css");
     expect((await run(["compile", "--config", f("config.real-min.json"), "--out", out])).code).toBe(0);
     const css = readFileSync(out, "utf8");
-    expect(css.startsWith("@theme static {")).toBe(true);
+    expect(css).toBe(
+      "@theme static {\n  --color-surface-primary: #181818;\n  --motion-duration-sheet: 0.35s;\n}\n",
+    );
     expect(css).not.toContain("\r");
   });
 });
