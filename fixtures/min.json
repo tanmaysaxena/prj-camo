@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "camoVersion": "0.1.0",
+  "prefix": "mf",
+  "overrides": {
+    "color.surface.base": "#101414",
+    "motion.duration.fast": "0.2s"
+  },
+  "extend": {
+    "credit.accent": { "kind": "color", "value": "#e0b84c" }
+  }
+}

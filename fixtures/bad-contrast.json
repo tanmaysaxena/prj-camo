@@ -1,0 +1,6 @@
+{
+  "schemaVersion": 1,
+  "camoVersion": "0.1.0",
+  "prefix": "mf",
+  "overrides": { "color.surface.base": "#e8ecea" }
+}

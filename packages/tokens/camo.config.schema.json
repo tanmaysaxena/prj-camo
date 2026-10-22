@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://prj-camo.dev/camo.config.schema.json",
+  "title": "camo.config.json",
+  "type": "object",
+  "required": ["schemaVersion", "camoVersion", "prefix"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "const": 1 },
+    "camoVersion": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+(-[0-9A-Za-z.-]+)?$" },
+    "prefix": { "type": "string", "pattern": "^[a-z][a-z0-9]*$" },
+    "overrides": {
+      "type": "object",
+      "propertyNames": { "pattern": "^[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*$" },
+      "additionalProperties": { "type": ["string", "number"] }
+    },
+    "extend": {
+      "type": "object",
+      "propertyNames": { "pattern": "^[a-z0-9]+(\\.[a-z0-9]+)*$" },
+      "additionalProperties": {
+        "type": "object",
+        "required": ["kind", "value"],
+        "additionalProperties": false,
+        "properties": {
+          "kind": { "enum": ["color", "length", "duration", "easing", "shadow", "font", "number", "other"] },
+          "value": { "type": ["string", "number"] }
+        }
+      }
+    }
+  }
+}
