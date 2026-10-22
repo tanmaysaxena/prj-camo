@@ -1,4 +1,5 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { createRequire } from "node:module";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { compile } from "./compile.js";
@@ -10,10 +11,18 @@ const USAGE = `usage:
   camo validate --config <file> [--tokens <file>]
 `;
 
-export const DEFAULT_TOKENS = resolve(
-  dirname(fileURLToPath(import.meta.url)),
-  "../../tokens/camo.tokens.json",
-);
+const SIBLING_TOKENS = resolve(dirname(fileURLToPath(import.meta.url)), "../../tokens/camo.tokens.json");
+
+function findDefaultTokens(): string {
+  // Installed: resolve the @prj-camo/tokens package. Monorepo checkout: sibling folder.
+  try {
+    return createRequire(import.meta.url).resolve("@prj-camo/tokens/camo.tokens.json");
+  } catch {
+    return SIBLING_TOKENS;
+  }
+}
+
+export const DEFAULT_TOKENS = findDefaultTokens();
 
 interface Args {
   command: string;

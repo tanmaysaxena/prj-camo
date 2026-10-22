@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "camoVersion": "0.1.0",
+  "overrides": { "color.surface.base": "#101414" },
+  "extend": {
+    "color.credit.accent": { "kind": "color", "value": "#e0b84c", "css": "--color-credit-accent" },
+    "shadow.credit.glow": { "kind": "shadow", "value": "0 0 12px #e0b84c80", "css": "--shadow-credit-glow" },
+    "gradient.hero": { "kind": "other", "value": "linear-gradient(135deg, #101414, color-mix(in srgb, #e0b84c 20%, #000))", "css": "--hero-gradient" },
+    "breakpoint.sm": { "kind": "length", "value": "40rem", "css": "--breakpoint-sm", "buildTime": true }
+  }
+}

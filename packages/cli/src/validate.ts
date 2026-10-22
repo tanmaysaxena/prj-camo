@@ -1,4 +1,4 @@
-import { extendVarName } from "./compile.js";
+import { CSS_NAME_RE, extendVarName } from "./compile.js";
 import { KINDS, type CamoConfig, type Issue, type Kind, type TokenFile, type ValidationResult } from "./types.js";
 
 const SURFACE_BASE = "color.surface.base";
@@ -94,7 +94,7 @@ export function validate(config: CamoConfig, tokens: TokenFile): ValidationResul
   if (typeof config.camoVersion !== "string" || !/^\d+\.\d+\.\d+/.test(config.camoVersion)) {
     err(0, "camoVersion must be a semver string");
   }
-  if (typeof config.prefix !== "string" || !/^[a-z][a-z0-9]*$/.test(config.prefix)) {
+  if (config.prefix !== undefined && (typeof config.prefix !== "string" || !/^[a-z][a-z0-9]*$/.test(config.prefix))) {
     err(0, "prefix must match ^[a-z][a-z0-9]*$");
   }
   const overrides = config.overrides ?? {};
@@ -141,18 +141,31 @@ export function validate(config: CamoConfig, tokens: TokenFile): ValidationResul
   const seenExtend = new Map<string, string>();
   for (const key of Object.keys(extend).sort()) {
     const entry = extend[key]!;
-    const name = extendVarName(config.prefix, key);
+    if (entry === null || typeof entry !== "object") {
+      err(0, `extend "${key}" must be an object with kind and value`);
+      continue;
+    }
+    if (entry.css !== undefined && (typeof entry.css !== "string" || !CSS_NAME_RE.test(entry.css))) {
+      err(0, `extend "${key}": css ${JSON.stringify(entry.css)} must match ${CSS_NAME_RE.source}`);
+      continue;
+    }
+    if (entry.css === undefined && config.prefix === undefined) {
+      err(0, `extend "${key}" has no explicit css and the config has no prefix`);
+      continue;
+    }
+    const name = extendVarName(config.prefix, key, entry.css);
     const owner = camoCss.get(name);
     if (owner) err(3, `extend "${key}" becomes ${name}, which collides with Camo token "${owner}"`);
     const earlier = seenExtend.get(name);
     if (earlier) err(3, `extend "${key}" becomes ${name}, which collides with extend "${earlier}"`);
     seenExtend.set(name, key);
-    if (!KINDS.includes(entry?.kind)) {
+    if (!KINDS.includes(entry.kind)) {
       err(2, `extend "${key}": kind must be one of ${KINDS.join(", ")}`);
       continue;
     }
     const problem = checkKindValue(entry.kind, entry.value);
     if (problem) err(2, `extend "${key}" (kind ${entry.kind}): ${problem}`);
+    else if (entry.buildTime) warnings.push({ rule: 7, message: `extend "${key}" (${name}) is a build-time token: rebuild required` });
   }
 
   // Rule 5: form field floor.

@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "camoVersion": "0.1.0",
+  "extend": {
+    "surface.base": { "kind": "color", "value": "#101414", "css": "--color-surface-base" }
+  }
+}

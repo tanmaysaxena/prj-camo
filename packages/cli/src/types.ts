@@ -23,12 +23,17 @@ export interface TokenFile {
 export interface ExtendEntry {
   kind: Kind;
   value: string | number;
+  /** Explicit CSS custom property name (e.g. "--color-credit-accent"). Emitted in `@theme static`. */
+  css?: string;
+  /** Marks a value used inside media queries; changing it needs a rebuild (rule 7 warning). */
+  buildTime?: boolean;
 }
 
 export interface CamoConfig {
   schemaVersion: number;
   camoVersion: string;
-  prefix: string;
+  /** Required unless every `extend` entry carries an explicit `css`. */
+  prefix?: string;
   overrides?: Record<string, string | number>;
   extend?: Record<string, ExtendEntry>;
 }

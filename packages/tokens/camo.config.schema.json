@@ -3,7 +3,7 @@
   "$id": "https://prj-camo.dev/camo.config.schema.json",
   "title": "camo.config.json",
   "type": "object",
-  "required": ["schemaVersion", "camoVersion", "prefix"],
+  "required": ["schemaVersion", "camoVersion"],
   "additionalProperties": false,
   "properties": {
     "$schema": { "type": "string" },
@@ -24,7 +24,9 @@
         "additionalProperties": false,
         "properties": {
           "kind": { "enum": ["color", "length", "duration", "easing", "shadow", "font", "number", "other"] },
-          "value": { "type": ["string", "number"] }
+          "value": { "type": ["string", "number"] },
+          "css": { "type": "string", "pattern": "^--[a-z0-9][a-z0-9_-]*$" },
+          "buildTime": { "type": "boolean" }
         }
       }
     }

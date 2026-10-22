@@ -1,8 +1,15 @@
 {
   "name": "@prj-camo/tokens",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
+  "exports": {
+    "./camo-base.css": "./camo-base.css",
+    "./camo.tokens.json": "./camo.tokens.json",
+    "./camo.config.schema.json": "./camo.config.schema.json",
+    "./assets/paper-grain.webp": "./assets/paper-grain.webp",
+    "./package.json": "./package.json"
+  },
   "files": [
     "camo.tokens.json",
     "camo-base.css",
