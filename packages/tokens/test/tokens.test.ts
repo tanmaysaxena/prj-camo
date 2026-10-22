@@ -114,6 +114,40 @@ describe("camo.tokens.json shape", () => {
     expect(bt.sort()).toEqual(bps.sort());
   });
 
+  it("leaves Tailwind's stock breakpoint names alone", () => {
+    for (const [key, t] of entries) {
+      if (!key.startsWith("breakpoint.")) continue;
+      expect(t.css, key).toMatch(/^--breakpoint-camo-/);
+    }
+    expect(css).not.toMatch(/--breakpoint-(sm|md|lg|xl|2xl)\s*:/);
+  });
+
+  it("defines font roles as plain stacks with no named-family variable references", () => {
+    for (const [key, t] of entries) {
+      if (t.kind !== "font") continue;
+      expect(t.value, key).not.toMatch(/var\(/);
+      expect(t.value, key).toMatch(/serif|sans-serif/);
+    }
+    expect(doc.tokens["typography.font.display"]).toBeDefined();
+    expect(doc.tokens["typography.font.body"]).toBeDefined();
+  });
+
+  it("makes the glass fill and blur overridable tokens used by .surface-glass", () => {
+    expect(doc.tokens["color.surface.glass"].kind).toBe("color");
+    expect(doc.tokens["blur.glass"].kind).toBe("length");
+    const rule = /\.surface-glass \{([^}]*)\}/.exec(css)![1];
+    expect(rule).toContain("var(--color-surface-glass)");
+    expect(rule).toContain("var(--blur-glass)");
+  });
+
+  it("ships the paper-grain tile at the documented path", () => {
+    const tile = join(pkgDir, "assets", "paper-grain.webp");
+    expect(existsSync(tile)).toBe(true);
+    expect(readFileSync(tile).subarray(8, 12).toString("ascii")).toBe("WEBP");
+    expect(css).toContain('--texture-paper-grain: url("/textures/paper-grain.webp")');
+    expect(readFileSync(join(pkgDir, "package.json"), "utf8")).toContain("assets/paper-grain.webp");
+  });
+
   it("keeps the form-field font size at or above 1rem", () => {
     const t = doc.tokens["typography.field.size"];
     expect(t).toBeDefined();
@@ -191,8 +225,6 @@ describe("camo-base.css matches camo.tokens.json", () => {
       "--fx-rx",
       "--fx-ry",
       "--fx-glow",
-      "--font-crimson-pro",
-      "--font-jura",
     ])
       known.add(v);
     const code = css.replace(/\/\*[\s\S]*?\*\//g, "");

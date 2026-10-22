@@ -6,6 +6,7 @@
   "files": [
     "camo.tokens.json",
     "camo-base.css",
+    "assets/paper-grain.webp",
     "camo.config.schema.json"
   ],
   "devDependencies": {

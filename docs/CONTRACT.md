@@ -10,7 +10,7 @@ Two work streams build in parallel against this file. Do not change it without t
   "tokens": {
     "color.surface.base": { "css": "--color-surface-base", "kind": "color", "value": "#0b0f0e" },
     "motion.duration.fast": { "css": "--motion-duration-fast", "kind": "duration", "value": "0.18s" },
-    "breakpoint.lg": { "css": "--breakpoint-lg", "kind": "length", "value": "64rem", "buildTime": true }
+    "breakpoint.wide": { "css": "--breakpoint-camo-wide", "kind": "length", "value": "64rem", "buildTime": true }
   }
 }
 ```

@@ -30,8 +30,10 @@
  * The token values below mirror camo.tokens.json. Edit the JSON first and
  * keep the two in step; the package's consistency test fails on any drift.
  *
- * Runtime assets: `--texture-paper-grain` (further down) points at a tile
- * image, /textures/paper-grain.webp, that the consuming app serves itself.
+ * Runtime assets: `--texture-paper-grain` (further down) points at
+ * /textures/paper-grain.webp, a tile shipped as assets/paper-grain.webp that
+ * the consuming app copies into its public folder (docs/paper-grain.md).
+ * No font files ship with the package; font roles are plain variables.
  */
 
 @theme static {
@@ -45,6 +47,9 @@
 
   /* Flat fill for high-emphasis inverted pills floating on the dark page. */
   --color-surface-pill-light: #fefefe;
+
+  /* Fill of .surface-glass (black at 72% alpha, rounded to 1/255). */
+  --color-surface-glass: #000000b8;
 
   /* Content (text and glyph) colors. Secondary, tertiary and disabled are
      white at reduced opacity, written as #rrggbbaa (alpha rounded to 1/255). */
@@ -125,6 +130,9 @@
   --blur-sm: 3px;
   --blur-lg: 5px;
   --blur-control: 8px;
+
+  /* Blur of .surface-glass. Sheet backgrounds must blur by at least 6px. */
+  --blur-glass: 6px;
   --blur-hero-glow: 160px;
 
   /* Translucent white-on-black elevation overlays (the "paper" mechanic).
@@ -134,14 +142,13 @@
   --elevation-chip-neutral: #ffffff1f;
   --elevation-chip-fill: #00000099;
 
-  /* Font stacks. The var(--font-*) references expect the consuming app to
-     register those families (for example with next/font); each stack falls
-     back to its generic family when the variable is unset. */
-  --font-display: var(--font-crimson-pro), serif;
-  --font-compact: var(--font-jura), sans-serif;
-  --font-ui-accent: var(--font-jura), sans-serif;
+  /* Font roles, each with system fallbacks. No font files ship with this package:
+     a project points a role at its own family through an override. */
+  --font-display: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-body: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-ui-accent: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-ui-native: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
-  --font-reading-serif: var(--font-crimson-pro), serif;
+  --font-reading-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
 
   /* Type scale. The --text-<name>--line-height and --text-<name>--letter-spacing
      companions are Tailwind v4's own mechanism for bundling those properties
@@ -207,11 +214,12 @@
   --z-index-toast: 400;
 
   /* Breakpoints (used inside media queries, so they are fixed at build time)
-     and container caps. These replace Tailwind's stock sm/md/lg/xl values. */
-  --breakpoint-sm: 480px;
-  --breakpoint-md: 768px;
-  --breakpoint-lg: 1000px;
-  --breakpoint-xl: 1280px;
+     and container caps. Camo's own names (variants camo-compact: and so on);
+     Tailwind's stock sm/md/lg/xl breakpoints are left untouched. */
+  --breakpoint-camo-compact: 480px;
+  --breakpoint-camo-regular: 768px;
+  --breakpoint-camo-wide: 1000px;
+  --breakpoint-camo-extra-wide: 1280px;
   --container-shell: 1000px;
   --container-wide: 1280px;
 
@@ -279,25 +287,25 @@
     letter-spacing: var(--text-h1-section--letter-spacing);
   }
   .ds-h2-card {
-    font-family: var(--font-compact);
+    font-family: var(--font-body);
     font-weight: 400;
     font-size: var(--text-h2-card);
     line-height: var(--text-h2-card--line-height);
   }
   .ds-body-md {
-    font-family: var(--font-compact);
+    font-family: var(--font-body);
     font-weight: 400;
     font-size: var(--text-body-md);
     line-height: var(--text-body-md--line-height);
   }
   .ds-body-sm {
-    font-family: var(--font-compact);
+    font-family: var(--font-body);
     font-weight: 400;
     font-size: var(--text-body-sm);
     line-height: var(--text-body-sm--line-height);
   }
   .ds-cap-label {
-    font-family: var(--font-compact);
+    font-family: var(--font-body);
     font-weight: 700;
     font-size: var(--text-cap-label);
     line-height: var(--text-cap-label--line-height);
@@ -305,7 +313,7 @@
     text-transform: uppercase;
   }
   .ds-cap-micro {
-    font-family: var(--font-compact);
+    font-family: var(--font-body);
     font-weight: 400;
     font-size: var(--text-cap-micro);
     line-height: var(--text-cap-micro--line-height);
@@ -358,8 +366,11 @@
   }
 }
 
-/* Paper grain: a seamlessly tileable 160px white-with-alpha image tile that
-   the consuming app serves at this URL. Subtle by design; the strength
+/* Paper grain: a seamlessly tileable 160px white-with-alpha image tile.
+   The package ships it as assets/paper-grain.webp; copy it into the app's
+   public folder at textures/paper-grain.webp (see docs/paper-grain.md) so
+   it is served at the URL below, or point the variable at another path
+   with an unlayered override. Subtle by design; the strength
    lives in the baked alpha of the tile, not here. Used by content cards
    (.card-fx) only; glass surfaces carry no grain. Plain CSS, so it costs
    one small decoded image and no WebGL. This rule is unlayered. */
@@ -396,14 +407,14 @@
   backdrop-filter: blur(var(--blur-lg));
 }
 
-/* A bottom-sheet container, or a segmented-control background. The blur is
-   a fixed 6px, not a token: it is a product requirement that sheet
-   backgrounds blur by at least 6px, kept out of the shared blur tokens so a
-   change to them cannot weaken it. Border color and opacity differ between
-   the two uses, so apply border-* utilities at the call site. */
+/* A bottom-sheet container, or a segmented-control background. Fill and
+   blur have their own tokens (surface-glass, blur-glass), separate from the
+   shared blur tokens, so changing those cannot weaken it; keep the blur at
+   6px or more. Border color and opacity differ between the two uses, so
+   apply border-* utilities at the call site. */
 .surface-glass {
-  background-color: rgba(0, 0, 0, 0.72);
-  backdrop-filter: blur(6px);
+  background-color: var(--color-surface-glass);
+  backdrop-filter: blur(var(--blur-glass));
 }
 
 /* Interactive input components: buttons, icon buttons, the chrome that owns

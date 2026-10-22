@@ -7,15 +7,31 @@ Source: the source product's stylesheet (`camo-ui-glass-paper.css`, 1,596 lines,
 | | Count |
 |---|---|
 | CSS custom properties declared as theme tokens in the source | 222 |
-| Included in `camo.tokens.json` (from the source) | 134 |
-| Added (no source variable) | 1 (`typography.field.size`, `--text-field`) |
-| **Total tokens in `camo.tokens.json`** | **135** |
+| Included in `camo.tokens.json` (from the source, same or renamed variable) | 134 |
+| Added (no source variable) | 3 (`typography.field.size` = `--text-field`; `color.surface.glass`; `blur.glass`) |
+| **Total tokens in `camo.tokens.json`** | **137** |
 | Excluded (product-specific) | 88 |
 | Contrast pairs | 13 |
 
-222 = 134 + 88. The source also declares seven non-token custom properties, handled as described under "Non-token properties".
+222 = 134 + 88. Five of the 134 were renamed (see "Owner rulings applied"). The source also declares seven non-token custom properties, handled as described under "Non-token properties".
 
-Included, by group: color 29, focus_ring 2, radii 6, gradient 11, blur 4, elevation 4, typography 32 (5 fonts, 11 scale steps with their line-height and letter-spacing companions, plus the field size), spacing 10, group_gap 2, z_index 6, breakpoint 4, container 2, motion 20, card_fx 3. Total 135.
+Included, by group: color 30, focus_ring 2, radii 6, gradient 11, blur 5, elevation 4, typography 32 (5 fonts, 11 scale steps with their line-height and letter-spacing companions, plus the field size), spacing 10, group_gap 2, z_index 6, breakpoint 4, container 2, motion 20, card_fx 3. Total 137.
+
+## Owner rulings applied
+
+1. **Fonts.** The named-family stacks are gone. Roles are `--font-display`, `--font-body` (the source's `--font-compact`, renamed), `--font-ui-accent`, `--font-ui-native` and `--font-reading-serif`, each a plain system stack (serif or sans-serif). Projects point a role at their own family with an override; no font files are in the package.
+2. **Glass.** `.surface-glass` now reads `color.surface.glass` (`--color-surface-glass`, `#000000b8` = black at 0.72 alpha, rounded to 1/255) and `blur.glass` (`--blur-glass`, 6px). Both are in `@theme static` and overridable. The source required a blur of at least 6px for sheet backgrounds, so lowering it is a project decision.
+3. **Paper grain.** The tile is packaged at `packages/tokens/assets/paper-grain.webp` (a byte copy of the source product's `paper-grain.webp`, 13,222 bytes) and `--texture-paper-grain` points at `/textures/paper-grain.webp`. The copy step is in `docs/paper-grain.md`; a future `camo init` will automate it.
+4. **Breakpoints.** Tailwind's stock `sm/md/lg/xl` are no longer redefined. Camo's breakpoints are `breakpoint.compact` (480px), `breakpoint.regular` (768px), `breakpoint.wide` (1000px) and `breakpoint.extra_wide` (1280px), css vars `--breakpoint-camo-compact`, `-regular`, `-wide`, `-extra-wide` (variants `camo-compact:` and so on), all `buildTime: true`.
+5. The badge color stays excluded: no generic badge until a project needs one.
+
+### Owner action required before the repo goes public
+
+**Confirm that you own the paper-grain texture.** It was baked by a script in the source product and copied here unchanged; it is the only binary asset in the package. If ownership is not clear, remove `assets/paper-grain.webp` and the `files` entry, and `docs/paper-grain.md` becomes "supply your own tile".
+
+### Migration note for Phase 4 (remapping the stock breakpoint names)
+
+The source product redefined Tailwind's stock breakpoints (sm 480, md 768, lg 1000, xl 1280), so its layouts use the plain `sm:`, `md:`, `lg:` and `xl:` variants. Once those names go back to Tailwind's defaults (640, 768, 1024, 1280), each use has to be remapped to the `camo-*` variants or the sizes shift: `sm:` to `camo-compact:`, `md:` to `camo-regular:`, `lg:` to `camo-wide:`, `xl:` to `camo-extra-wide:`. A search over `web/app/**/*.tsx` for `(sm|md|lg|xl):` finds about 105 occurrences in 46 files. The densest: `dashboard/DashboardScreen.tsx`, `notes/record/RecordView.tsx`, `components/app-header.tsx`, `components/sheet.tsx`, `dashboard/DashboardGreeting.tsx`, `notes/folders/[id]/FolderDetailScreen.tsx`, `notes/NotesIndex.tsx`, `components/ui/Group.tsx`, `components/ui/PageGlow.tsx`, the desktop rail and split-shell components, `components/folder-grid.tsx`, plus their tests. `lg:` carries the desktop tier (formerly hard-coded as `min-[1000px]:`). `--container-shell` and `--container-wide` are unaffected.
 
 ## Conversions
 
@@ -31,7 +47,7 @@ Every source color was already hex or `rgba()`; none used `oklch` or `color-mix`
 | `elevation.chip_neutral` | `rgba(255, 255, 255, 0.12)` | `#ffffff1f` |
 | `elevation.chip_fill` | `rgba(0, 0, 0, 0.6)` | `#00000099` |
 
-Kept verbatim, because they are not colors and cannot be hex: every `gradient.*` value (kind `other`; several contain `rgba()` stops, and `gradient.light_sweep` uses `color-mix`), the font stacks (they reference `var(--font-crimson-pro)` and `var(--font-jura)`, which the consuming app registers), `card_fx.sheen_*` percentages.
+Kept verbatim, because they are not colors and cannot be hex: every `gradient.*` value (kind `other`; several contain `rgba()` stops, and `gradient.light_sweep` uses `color-mix`), the font stacks (neutral system stacks, not hex), `card_fx.sheen_*` percentages.
 
 Other changes:
 
@@ -42,7 +58,7 @@ Other changes:
 
 ## Non-token properties (left in `camo-base.css` outside the theme block)
 
-- `--texture-paper-grain` and `--texture-paper-grain-size` in an unlayered `:root` rule. The first is a file reference (`/textures/paper-grain.webp`), not a value a config can meaningfully override; the consuming app must serve that tile. The source's baked tile is not part of this package.
+- `--texture-paper-grain` and `--texture-paper-grain-size` in an unlayered `:root` rule. The first is a file reference (`/textures/paper-grain.webp`), not a typed token value; the consuming app serves the tile shipped in `assets/` (see `docs/paper-grain.md`) or overrides the variable.
 - `--fx-x`, `--fx-y`, `--fx-rx`, `--fx-ry`, `--fx-glow` on `.card-fx`: per-element state that a controller script writes at runtime.
 
 ## Excluded tokens (88) and why
@@ -77,9 +93,5 @@ Carried over: 12 `ds-*` typography classes, `.scrim-modal/-footer/-header`, `.su
 ## Open questions
 
 1. The brief says "13 `ds-*` typography utilities"; the source defines 12 (display-hero, h1-section, h2-card, body-md, body-sm, cap-label, cap-micro, ui-accent-sm/md/lg, text-11, body-reading). All 12 are carried over. Is a thirteenth expected?
-2. Font stacks reference `--font-crimson-pro` and `--font-jura`, families the source registers through its framework. Should the portable base ship neutral stacks instead, with the display and compact families supplied by each project?
-3. `--color-badge-alpha` is excluded as product-specific. If a generic "status badge" color is wanted, it needs a new name and a decision on its value.
-4. `--container-shell` / `--container-wide` and the four breakpoints are kept at the source's 1000px / 1280px values and override Tailwind's stock `sm`/`md`/`lg`/`xl`. Confirm that overriding the stock breakpoint names is wanted for every consuming project.
-5. `.surface-glass` keeps a literal `rgba(0, 0, 0, 0.72)` fill and a fixed 6px blur (a stated product requirement in the source). They are not tokens; they could become `elevation.*` and `blur.*` tokens if projects need to override them.
-6. Contrast pairs are limited to combinations the source actually uses; stroke colors and toggle thumb on the success track fall below 3:1 and are not listed.
-7. The grain tile image is not packaged. Decide whether the package should ship one or document the contract only.
+2. Contrast pairs are limited to combinations the source actually uses; stroke colors and the toggle thumb on the success track fall below 3:1 and are not listed.
+3. `--container-shell` / `--container-wide` keep the source's 1000px / 1280px values; the names still describe the source product's shell. Rename if a neutral vocabulary is wanted.

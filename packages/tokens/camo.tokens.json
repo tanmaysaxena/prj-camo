@@ -26,6 +26,11 @@
       "kind": "color",
       "value": "#fefefe"
     },
+    "color.surface.glass": {
+      "css": "--color-surface-glass",
+      "kind": "color",
+      "value": "#000000b8"
+    },
     "color.content.primary": {
       "css": "--color-content-primary",
       "kind": "color",
@@ -256,6 +261,11 @@
       "kind": "length",
       "value": "8px"
     },
+    "blur.glass": {
+      "css": "--blur-glass",
+      "kind": "length",
+      "value": "6px"
+    },
     "blur.hero_glow": {
       "css": "--blur-hero-glow",
       "kind": "length",
@@ -284,17 +294,17 @@
     "typography.font.display": {
       "css": "--font-display",
       "kind": "font",
-      "value": "var(--font-crimson-pro), serif"
+      "value": "ui-serif, Georgia, Cambria, \"Times New Roman\", Times, serif"
     },
-    "typography.font.compact": {
-      "css": "--font-compact",
+    "typography.font.body": {
+      "css": "--font-body",
       "kind": "font",
-      "value": "var(--font-jura), sans-serif"
+      "value": "ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif"
     },
     "typography.font.ui_accent": {
       "css": "--font-ui-accent",
       "kind": "font",
-      "value": "var(--font-jura), sans-serif"
+      "value": "ui-sans-serif, system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, sans-serif"
     },
     "typography.font.ui_native": {
       "css": "--font-ui-native",
@@ -304,7 +314,7 @@
     "typography.font.reading_serif": {
       "css": "--font-reading-serif",
       "kind": "font",
-      "value": "var(--font-crimson-pro), serif"
+      "value": "ui-serif, Georgia, Cambria, \"Times New Roman\", Times, serif"
     },
     "typography.display_hero.size": {
       "css": "--text-display-hero",
@@ -531,26 +541,26 @@
       "kind": "number",
       "value": "400"
     },
-    "breakpoint.sm": {
-      "css": "--breakpoint-sm",
+    "breakpoint.compact": {
+      "css": "--breakpoint-camo-compact",
       "kind": "length",
       "value": "480px",
       "buildTime": true
     },
-    "breakpoint.md": {
-      "css": "--breakpoint-md",
+    "breakpoint.regular": {
+      "css": "--breakpoint-camo-regular",
       "kind": "length",
       "value": "768px",
       "buildTime": true
     },
-    "breakpoint.lg": {
-      "css": "--breakpoint-lg",
+    "breakpoint.wide": {
+      "css": "--breakpoint-camo-wide",
       "kind": "length",
       "value": "1000px",
       "buildTime": true
     },
-    "breakpoint.xl": {
-      "css": "--breakpoint-xl",
+    "breakpoint.extra_wide": {
+      "css": "--breakpoint-camo-extra-wide",
       "kind": "length",
       "value": "1280px",
       "buildTime": true
