@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "scan": { "include": ["app"], "exclude": ["**/*.test.*", "node_modules"] },
+  "tokenFiles": ["app/camo-ui-override.css", "app/brand.css"],
+  "overrideFile": "app/camo-ui-override.css",
+  "externalVars": ["--font-body", "--chart-*"],
+  "rules": {
+    "raw-element": { "allow": [{ "path": "app/ui/**", "reason": "the primitives wrap the raw elements" }] }
+  }
+}

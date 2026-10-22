@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "scan": { "include": ["app"] },
+  "baseline": [
+    { "rule": "hardcoded-color", "path": "app/a.tsx", "count": 2, "reason": "pre-existing debt, tracked in the migration plan" }
+  ]
+}

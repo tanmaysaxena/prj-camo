@@ -1,0 +1,6 @@
+.a {
+  color: var(--color-content-primary);
+  background: var(--color-surface-bsae);
+  margin: var(--local-gap);
+  --local-gap: 4px;
+}

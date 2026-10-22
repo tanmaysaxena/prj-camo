@@ -76,6 +76,18 @@ Overridden tokens and extend entries with an explicit `css` go in `@theme static
 
 Tailwind v4 CSS. Declares every token from `camo.tokens.json` in `@theme static { ... }` (so Tailwind never purges them), plus generic compound classes. Contains NO mindfarm-specific rules. Must include the 16px form-field floor. Header comment states the import order: tailwindcss, camo-base, camo-ui-override.
 
+## Style guard: `camo check style` (0.2.0)
+
+Scanner CLI in `packages/cli/src/style*.ts`; full rules, heuristics and workflow in [`style-guard.md`](style-guard.md).
+
+- Command: `camo check style [--config camo.check.json] [--root <dir>] [--tokens <file>] [--json] [--update-baseline] [--show-baselined]`. Exit 0 clean, 1 findings or baseline problems, 2 usage or config error.
+- Config file `camo.check.json` (consumer-owned), schema `packages/tokens/camo.check.schema.json`, exported as `@prj-camo/tokens/camo.check.schema.json`. Keys: `schemaVersion` (1), `scan.include/exclude`, `tokenFiles`, `overrideFile`, `externalVars`, `rules.<id>.{severity,allow[{path,reason}]}` (+ `elements` on `raw-element`, `ignoreWithFallback` on `unknown-var`), `baseline[{rule,path,count,reason}]`.
+- Rule ids (stable, used in config, baselines and JSON output): `hardcoded-color`, `arbitrary-type-size`, `arbitrary-spacing-radius-shadow` (default off), `raw-element`, `inline-style-literal`, `unknown-var`, `namespace-redeclare`.
+- Inline escape: `camo-ok: <reason>` (optionally `camo-ok(rule-id,...): <reason>`) in a comment on the finding's line or the line before. The reason is mandatory.
+- Ratchet: per `(rule, path)` an actual count above the baseline fails; below it fails as stale ("tighten baseline"); a `TODO` or empty baseline reason fails.
+- Vocabulary lock (rule 7) uses the `css` names of `camo.tokens.json`. Rule 6 resolves against `camo.tokens.json`, the declarations in the `camo-base.css` next to it, the consumer's `tokenFiles`, `externalVars`, and names set anywhere in the scanned source.
+- `--json` shape: `{ ok, summary: { filesScanned, total, failing, baselined, issues, byRule }, findings: [{ rule, path, line, col, message, snippet, status }], issues: [{ kind, rule, path, message }] }`.
+
 ## File ownership
 
 - Stream A owns `packages/cli/**`, `packages/tokens/camo.config.schema.json`, `fixtures/**`.

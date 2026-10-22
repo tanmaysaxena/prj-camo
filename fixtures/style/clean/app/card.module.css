@@ -1,0 +1,18 @@
+.card {
+  --fx-tilt: 3deg;
+  color: var(--color-content-primary);
+  background: var(--brand-accent);
+  box-shadow: 0 0 8px var(--brand-glow);
+  transform: rotate(var(--fx-tilt));
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%23fff'><rect fill='#abc'/></svg>");
+  mask: url(#clip-a);
+}
+
+#fade {
+  opacity: 0.5;
+}
+
+.angle {
+  rotate: var(--brand-angle);
+  font-size: var(--typography-field-size);
+}

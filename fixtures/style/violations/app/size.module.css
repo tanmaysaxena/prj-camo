@@ -1,0 +1,6 @@
+.title {
+  font-size: 14px;
+}
+.fine {
+  font-size: var(--typography-field-size);
+}

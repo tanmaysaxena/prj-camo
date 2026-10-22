@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://prj-camo.dev/camo.check.schema.json",
+  "title": "camo.check.json",
+  "type": "object",
+  "required": ["schemaVersion", "scan"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "const": 1 },
+    "scan": {
+      "type": "object",
+      "required": ["include"],
+      "additionalProperties": false,
+      "properties": {
+        "include": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+        "exclude": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+      }
+    },
+    "tokenFiles": { "type": "array", "items": { "type": "string", "minLength": 1 } },
+    "overrideFile": { "type": "string", "minLength": 1 },
+    "externalVars": { "type": "array", "items": { "type": "string", "pattern": "^--[A-Za-z0-9_*-]+$" } },
+    "rules": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "hardcoded-color": { "$ref": "#/$defs/rule" },
+        "arbitrary-type-size": { "$ref": "#/$defs/rule" },
+        "arbitrary-spacing-radius-shadow": { "$ref": "#/$defs/rule" },
+        "inline-style-literal": { "$ref": "#/$defs/rule" },
+        "namespace-redeclare": { "$ref": "#/$defs/rule" },
+        "raw-element": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "severity": { "enum": ["error", "off"] },
+            "allow": { "$ref": "#/$defs/allow" },
+            "elements": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+          }
+        },
+        "unknown-var": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "severity": { "enum": ["error", "off"] },
+            "allow": { "$ref": "#/$defs/allow" },
+            "ignoreWithFallback": { "type": "boolean" }
+          }
+        }
+      }
+    },
+    "baseline": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["rule", "path", "count", "reason"],
+        "additionalProperties": false,
+        "properties": {
+          "rule": {
+            "enum": [
+              "hardcoded-color",
+              "arbitrary-type-size",
+              "arbitrary-spacing-radius-shadow",
+              "raw-element",
+              "inline-style-literal",
+              "unknown-var",
+              "namespace-redeclare"
+            ]
+          },
+          "path": { "type": "string", "minLength": 1 },
+          "count": { "type": "integer", "minimum": 1 },
+          "reason": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "allow": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "reason"],
+        "additionalProperties": false,
+        "properties": {
+          "path": { "type": "string", "minLength": 1 },
+          "reason": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "severity": { "enum": ["error", "off"] },
+        "allow": { "$ref": "#/$defs/allow" }
+      }
+    }
+  }
+}

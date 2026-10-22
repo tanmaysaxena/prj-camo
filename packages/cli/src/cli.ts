@@ -1,28 +1,19 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
-import { createRequire } from "node:module";
-import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { resolve } from "node:path";
 import { compile } from "./compile.js";
 import type { CamoConfig, TokenFile } from "./types.js";
+import { DEFAULT_TOKENS } from "./paths.js";
+import { STYLE_USAGE, styleMain } from "./style.js";
 import { validate } from "./validate.js";
 
 const USAGE = `usage:
   camo compile --config <file> [--tokens <file>] [--out <file>] [--check]
   camo validate --config <file> [--tokens <file>]
+${STYLE_USAGE}
+  camo check style: scan a consumer app for design-system drift (see docs/style-guard.md); exit 0 ok, 1 findings, 2 usage/config error
 `;
 
-const SIBLING_TOKENS = resolve(dirname(fileURLToPath(import.meta.url)), "../../tokens/camo.tokens.json");
-
-function findDefaultTokens(): string {
-  // Installed: resolve the @prj-camo/tokens package. Monorepo checkout: sibling folder.
-  try {
-    return createRequire(import.meta.url).resolve("@prj-camo/tokens/camo.tokens.json");
-  } catch {
-    return SIBLING_TOKENS;
-  }
-}
-
-export const DEFAULT_TOKENS = findDefaultTokens();
+export { DEFAULT_TOKENS };
 
 interface Args {
   command: string;
@@ -67,6 +58,14 @@ function readJson<T>(path: string, label: string): T {
 
 /** Runs the CLI; returns the process exit code. */
 export async function main(argv: string[], io = { out: console.log, err: console.error }): Promise<number> {
+  if (argv[0] === "check") {
+    if (argv[1] !== "style") {
+      io.err(`camo: unknown check "${argv[1] ?? ""}" (available: style)
+${USAGE}`);
+      return 2;
+    }
+    return styleMain(argv.slice(2), DEFAULT_TOKENS, io);
+  }
   const args = parseArgs(argv);
   if (typeof args === "string") {
     io.err(`camo: ${args}\n${USAGE}`);

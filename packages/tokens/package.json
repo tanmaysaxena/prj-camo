@@ -1,6 +1,6 @@
 {
   "name": "@prj-camo/tokens",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "exports": {
@@ -8,13 +8,15 @@
     "./camo.tokens.json": "./camo.tokens.json",
     "./camo.config.schema.json": "./camo.config.schema.json",
     "./assets/paper-grain.webp": "./assets/paper-grain.webp",
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./camo.check.schema.json": "./camo.check.schema.json"
   },
   "files": [
     "camo.tokens.json",
     "camo-base.css",
     "assets/paper-grain.webp",
-    "camo.config.schema.json"
+    "camo.config.schema.json",
+    "camo.check.schema.json"
   ],
   "devDependencies": {
     "@tailwindcss/cli": "4.1.18",

@@ -1,0 +1,12 @@
+/* The consumer's own tokens: hex values are allowed here because this is a tokenFile. */
+:root {
+  --brand-accent: #e0b84c;
+  --brand-glow: rgba(224, 184, 76, 0.4);
+  font-size: 15px;
+}
+
+@property --brand-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}

@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "scan": { "include": ["app"] },
+  "rules": {
+    "hardcoded-color": { "allow": [{ "path": "app/legacy/**", "reason": "legacy screens are being migrated" }] }
+  }
+}

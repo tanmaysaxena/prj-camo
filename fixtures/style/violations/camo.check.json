@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "scan": { "include": ["app"] },
+  "tokenFiles": ["app/camo-ui-override.css"],
+  "overrideFile": "app/camo-ui-override.css",
+  "rules": {
+    "arbitrary-spacing-radius-shadow": { "severity": "error" }
+  }
+}

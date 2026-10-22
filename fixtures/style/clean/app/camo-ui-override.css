@@ -1,0 +1,4 @@
+@theme static {
+  --color-surface-base: #101414;
+  --motion-duration-fast: 0.2s;
+}
