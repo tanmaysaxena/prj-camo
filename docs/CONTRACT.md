@@ -74,7 +74,7 @@ Overridden tokens and extend entries with an explicit `css` go in `@theme static
 
 ## Base CSS: `packages/tokens/camo-base.css` (stream B)
 
-Tailwind v4 CSS. Declares every token from `camo.tokens.json` in `@theme static { ... }` (so Tailwind never purges them), plus generic compound classes. Contains NO mindfarm-specific rules. Must include the 16px form-field floor. Header comment states the import order: tailwindcss, camo-base, camo-ui-override.
+Tailwind v4 CSS. Declares every token from `camo.tokens.json` in `@theme static { ... }` (so Tailwind never purges them), plus generic compound classes. Contains NO product-specific rules. Must include the 16px form-field floor. Header comment states the import order: tailwindcss, camo-base, camo-ui-override.
 
 ## Style guard: `camo check style` (0.2.0)
 
@@ -92,4 +92,4 @@ Scanner CLI in `packages/cli/src/style*.ts`; full rules, heuristics and workflow
 
 - Stream A owns `packages/cli/**`, `packages/tokens/camo.config.schema.json`, `fixtures/**`.
 - Stream B owns `packages/tokens/camo.tokens.json`, `packages/tokens/camo-base.css`, `packages/tokens/test/**`, `docs/extraction-notes.md`.
-- Neither touches the other's files. Neither edits anything under `prj-mindfarm`; they only read it.
+- Neither touches the other's files. Neither edits the source product's repository; they only read it.

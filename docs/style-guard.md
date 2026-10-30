@@ -20,7 +20,7 @@ Schema: `@prj-camo/tokens/camo.check.schema.json` (add `"$schema": "./node_modul
 {
   "schemaVersion": 1,
   "scan": { "include": ["app", "lib"], "exclude": ["**/*.test.*", "node_modules"] },
-  "tokenFiles": ["app/camo-ui-override.css", "app/mindfarm-ui.css"],
+  "tokenFiles": ["app/camo-ui-override.css", "app/project-ui.css"],
   "overrideFile": "app/camo-ui-override.css",
   "externalVars": ["--font-jura", "--chart-*"],
   "rules": {
