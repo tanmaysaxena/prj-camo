@@ -8,7 +8,8 @@
   },
   "files": [
     "bin",
-    "dist"
+    "dist",
+    "NOTICE"
   ],
   "dependencies": {
     "@prj-camo/tokens": "0.2.0"
@@ -16,5 +17,16 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "prepack": "npm run build"
-  }
+  },
+  "license": "Apache-2.0",
+  "author": "Tanmay Saxena",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tanmaysaxena/prj-camo.git"
+  },
+  "homepage": "https://github.com/tanmaysaxena/prj-camo#readme",
+  "bugs": {
+    "url": "https://github.com/tanmaysaxena/prj-camo/issues"
+  },
+  "description": "Camo CLI: compile a project camo.config.json, validate it, and check an app for design-system drift."
 }

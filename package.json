@@ -3,7 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "description": "Portable design system (skin, motion, layout, specs) with per-project override. Apache-2.0.",
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "test": "vitest run",
     "typecheck": "tsc -p tsconfig.base.json --noEmit"
@@ -12,5 +14,15 @@
     "typescript": "5.6.3",
     "vitest": "2.1.8",
     "@types/node": "22.10.2"
+  },
+  "license": "Apache-2.0",
+  "author": "Tanmay Saxena",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tanmaysaxena/prj-camo.git"
+  },
+  "homepage": "https://github.com/tanmaysaxena/prj-camo#readme",
+  "bugs": {
+    "url": "https://github.com/tanmaysaxena/prj-camo/issues"
   }
 }

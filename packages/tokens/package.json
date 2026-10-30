@@ -16,10 +16,22 @@
     "camo-base.css",
     "assets/paper-grain.webp",
     "camo.config.schema.json",
-    "camo.check.schema.json"
+    "camo.check.schema.json",
+    "NOTICE"
   ],
   "devDependencies": {
     "@tailwindcss/cli": "4.1.18",
     "tailwindcss": "4.1.18"
-  }
+  },
+  "license": "Apache-2.0",
+  "author": "Tanmay Saxena",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tanmaysaxena/prj-camo.git"
+  },
+  "homepage": "https://github.com/tanmaysaxena/prj-camo#readme",
+  "bugs": {
+    "url": "https://github.com/tanmaysaxena/prj-camo/issues"
+  },
+  "description": "Camo design tokens, base CSS and config schemas."
 }
