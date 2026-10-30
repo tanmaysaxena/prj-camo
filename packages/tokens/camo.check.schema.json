@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://prj-camo.dev/camo.check.schema.json",
+  "$id": "https://raw.githubusercontent.com/tanmaysaxena/prj-camo/main/packages/tokens/camo.check.schema.json",
   "title": "camo.check.json",
   "type": "object",
   "required": ["schemaVersion", "scan"],
