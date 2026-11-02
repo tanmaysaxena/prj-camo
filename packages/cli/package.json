@@ -1,7 +1,6 @@
 {
-  "name": "@prj-camo/cli",
+  "name": "@prjx/camo-cli",
   "version": "0.2.0",
-  "private": true,
   "type": "module",
   "bin": {
     "camo": "bin/camo.mjs"
@@ -12,7 +11,7 @@
     "NOTICE"
   ],
   "dependencies": {
-    "@prj-camo/tokens": "0.2.0"
+    "@prjx/camo-tokens": "0.2.0"
   },
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
@@ -28,5 +27,9 @@
   "bugs": {
     "url": "https://github.com/tanmaysaxena/prj-camo/issues"
   },
-  "description": "Camo CLI: compile a project camo.config.json, validate it, and check an app for design-system drift."
+  "description": "Camo CLI: compile a project camo.config.json, validate it, and check an app for design-system drift.",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
 }

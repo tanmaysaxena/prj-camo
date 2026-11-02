@@ -8,7 +8,7 @@ Issues and pull requests are welcome. This is a one-maintainer project, so revie
 npm install
 npm test            # vitest, all packages
 npm run typecheck
-npm run build -w @prj-camo/cli
+npm run build -w @prjx/camo-cli
 ```
 
 Node 22 or newer.

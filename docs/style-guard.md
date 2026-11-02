@@ -14,7 +14,7 @@ camo check style [--config camo.check.json] [--root <dir>] [--tokens <file>]
 
 ## Config: `camo.check.json`
 
-Schema: `@prj-camo/tokens/camo.check.schema.json` (add `"$schema": "./node_modules/@prj-camo/tokens/camo.check.schema.json"`).
+Schema: `@prjx/camo-tokens/camo.check.schema.json` (add `"$schema": "./node_modules/@prjx/camo-tokens/camo.check.schema.json"`).
 
 ```json
 {

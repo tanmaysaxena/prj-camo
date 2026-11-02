@@ -13,15 +13,15 @@ and one small file, `camo.config.json`, where the project says how it differs. E
 - **A drift guard.** `camo check style` scans your app's source for hard-coded colors, arbitrary font sizes, raw
   form elements and unknown variables, with a baseline that can only shrink.
 
-Licensed under [Apache-2.0](LICENSE). Status: **pre-release (0.2.0)**. The packages are not on npm yet; see
-[Install](#install).
+Licensed under [Apache-2.0](LICENSE). Status: **pre-release (0.2.0)**. Both packages are on npm under the
+`@prjx` scope; see [Install](#install).
 
 ## What is in the box
 
 | Package | What it is |
 | --- | --- |
-| `@prj-camo/tokens` | `camo.tokens.json` (the token vocabulary and contrast pairs), `camo-base.css` (the tokens as a Tailwind v4 `@theme static` block plus generic classes), the JSON schemas for `camo.config.json` and `camo.check.json`, and the paper-grain texture tile. |
-| `@prj-camo/cli` | The `camo` command: `compile`, `validate` and `check style`. Needs Node 22 or newer. |
+| `@prjx/camo-tokens` | `camo.tokens.json` (the token vocabulary and contrast pairs), `camo-base.css` (the tokens as a Tailwind v4 `@theme static` block plus generic classes), the JSON schemas for `camo.config.json` and `camo.check.json`, and the paper-grain texture tile. |
+| `@prjx/camo-cli` | The `camo` command: `compile`, `validate` and `check style`. Needs Node 22 or newer. |
 
 `camo-base.css` also carries the generic classes built on the tokens: the `ds-*` typography classes (`ds-display-hero`,
 `ds-body-md`, `ds-cap-label`, ...), glass and paper surfaces (`.surface-glass`, `.control-glass`, `.surface-raised`,
@@ -30,23 +30,14 @@ no fonts: font roles are plain system stacks that a project points at its own fa
 
 ## Install
 
-Camo is not published to npm yet. Until it is, build tarballs from a clone and install them into your project.
-
 ```
-git clone https://github.com/tanmaysaxena/prj-camo.git
-cd prj-camo
-npm install
-npm pack -w @prj-camo/tokens -w @prj-camo/cli      # writes prj-camo-tokens-0.2.0.tgz and prj-camo-cli-0.2.0.tgz
+npm install @prjx/camo-tokens
+npm install --save-dev @prjx/camo-cli
 ```
 
-Copy the two `.tgz` files into your project (for example `vendor/`) and add them as dependencies:
-
-```json
-{
-  "dependencies": { "@prj-camo/tokens": "file:vendor/prj-camo-tokens-0.2.0.tgz" },
-  "devDependencies": { "@prj-camo/cli": "file:vendor/prj-camo-cli-0.2.0.tgz" }
-}
-```
+The CLI installs a `camo` command. In a project that has it installed, `npx camo ...` runs that local copy. Outside a
+project, run it as `npx @prjx/camo-cli ...`: a different, unrelated package called `camo` exists on npm, and a bare
+`npx camo` in a fresh folder would fetch that one.
 
 Your project needs Tailwind CSS v4 (`tailwindcss` 4.x) already set up.
 
@@ -58,19 +49,19 @@ In your app's entry stylesheet:
 
 ```css
 @import "tailwindcss";
-@import "@prj-camo/tokens/camo-base.css";
+@import "@prjx/camo-tokens/camo-base.css";
 @import "./camo-ui-override.css";   /* generated in step 3 */
 ```
 
 Order matters. The base declares every token; the override file (unlayered) comes last so it wins without
-`!important`. If your build cannot resolve the package path, import `node_modules/@prj-camo/tokens/camo-base.css` by
+`!important`. If your build cannot resolve the package path, import `node_modules/@prjx/camo-tokens/camo-base.css` by
 relative path.
 
 ### 2. Write `camo.config.json`
 
 ```json
 {
-  "$schema": "./node_modules/@prj-camo/tokens/camo.config.schema.json",
+  "$schema": "./node_modules/@prjx/camo-tokens/camo.config.schema.json",
   "schemaVersion": 1,
   "camoVersion": "0.2.0",
   "prefix": "myapp",
@@ -113,7 +104,7 @@ Suggested `package.json` scripts:
 ### 4. Serve the paper-grain tile (optional)
 
 `.card-fx` shows a faint paper grain from `/textures/paper-grain.webp`. Copy
-`node_modules/@prj-camo/tokens/assets/paper-grain.webp` to `public/textures/paper-grain.webp`, or point
+`node_modules/@prjx/camo-tokens/assets/paper-grain.webp` to `public/textures/paper-grain.webp`, or point
 `--texture-paper-grain` somewhere else. Without it the cards still render, just without the grain. Details in
 [`docs/paper-grain.md`](docs/paper-grain.md).
 
@@ -162,7 +153,7 @@ every rule: [`docs/style-guard.md`](docs/style-guard.md).
 npm install
 npm test             # vitest across both packages
 npm run typecheck
-npm run build -w @prj-camo/cli
+npm run build -w @prjx/camo-cli
 ```
 
 Layout:
@@ -194,7 +185,7 @@ How the tokens were extracted from their original product is in [`docs/extractio
 ## Not built yet
 
 Motion and shader packages, the live dev panel (`camo dev`), `camo init`, `camo upgrade-check` and `camo propose`.
-Publishing to npm is also still to do.
+
 
 ## Contributing and security
 
