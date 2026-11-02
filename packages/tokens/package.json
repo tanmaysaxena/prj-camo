@@ -1,7 +1,6 @@
 {
-  "name": "@prj-camo/tokens",
+  "name": "@prjx/camo-tokens",
   "version": "0.2.0",
-  "private": true,
   "type": "module",
   "exports": {
     "./camo-base.css": "./camo-base.css",
@@ -33,5 +32,9 @@
   "bugs": {
     "url": "https://github.com/tanmaysaxena/prj-camo/issues"
   },
-  "description": "Camo design tokens, base CSS and config schemas."
+  "description": "Camo design tokens, base CSS and config schemas.",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
 }

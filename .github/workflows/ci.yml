@@ -15,4 +15,4 @@ jobs:
       - run: npm ci
       - run: npm run typecheck
       - run: npm test
-      - run: npm run build -w @prj-camo/cli
+      - run: npm run build -w @prjx/camo-cli
