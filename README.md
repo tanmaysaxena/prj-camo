@@ -13,7 +13,7 @@ and one small file, `camo.config.json`, where the project says how it differs. E
 - **A drift guard.** `camo check style` scans your app's source for hard-coded colors, arbitrary font sizes, raw
   form elements and unknown variables, with a baseline that can only shrink.
 
-Licensed under [Apache-2.0](LICENSE). Status: **pre-release (0.2.0)**. Both packages are on npm under the
+Licensed under [Apache-2.0](LICENSE). Status: **pre-release (0.2.1)**. Both packages are on npm under the
 `@prjx` scope; see [Install](#install).
 
 ## What is in the box
