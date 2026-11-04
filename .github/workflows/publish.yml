@@ -1,0 +1,52 @@
+name: publish
+
+# Publishes @prjx/camo-tokens and @prjx/camo-cli to npm when a version tag is pushed.
+#
+#   1. Bump "version" in both packages/*/package.json (and the cli's @prjx/camo-tokens dependency), merge to main.
+#   2. git tag v0.2.1 && git push origin v0.2.1
+#
+# Requires the repository secret NPM_TOKEN: an npm automation (or granular, publish-scoped) token for the account that
+# owns the @prjx scope. Provenance needs the id-token permission below and a GitHub-hosted runner.
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          registry-url: https://registry.npmjs.org
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - name: Tag matches both package versions
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          for p in tokens cli; do
+            v=$(node -p "require('./packages/$p/package.json').version")
+            if [ "$v" != "$tag" ]; then
+              echo "::error::tag v$tag does not match packages/$p version $v"
+              exit 1
+            fi
+          done
+          dep=$(node -p "require('./packages/cli/package.json').dependencies['@prjx/camo-tokens']")
+          if [ "$dep" != "$tag" ]; then
+            echo "::error::cli depends on @prjx/camo-tokens@$dep, expected exactly $tag"
+            exit 1
+          fi
+      # tokens first: the cli depends on it. The cli's prepack builds dist/.
+      - run: npm publish -w @prjx/camo-tokens --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run: npm publish -w @prjx/camo-cli --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

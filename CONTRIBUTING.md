@@ -30,3 +30,15 @@ Node 22 or newer.
 
 `camo init`, `camo dev` (the live panel), `camo upgrade-check` and `camo propose` are planned but do not exist. Open an
 issue before starting on one so the design can be agreed first.
+
+## Releasing
+
+Publishing is done by `.github/workflows/publish.yml` when a version tag is pushed; do not `npm publish` from a laptop
+(`provenance` only works from GitHub Actions).
+
+1. Bump `version` in `packages/tokens/package.json` and `packages/cli/package.json`, and the cli's exact
+   `@prjx/camo-tokens` dependency to the same number. Run `npm install --package-lock-only`. Merge to `main`.
+2. `git tag vX.Y.Z && git push origin vX.Y.Z`. The workflow refuses to publish if the tag and the package versions disagree.
+3. One-time setup: a repository secret `NPM_TOKEN` (an npm token that can publish to the `@prjx` scope).
+
+A published version cannot be overwritten; fix forward with the next patch number.
