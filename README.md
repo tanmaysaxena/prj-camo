@@ -25,7 +25,7 @@ Licensed under [Apache-2.0](LICENSE). Status: **pre-release (0.2.1)**. Both pack
 
 `camo-base.css` also carries the generic classes built on the tokens: the `ds-*` typography classes (`ds-display-hero`,
 `ds-body-md`, `ds-cap-label`, ...), glass and paper surfaces (`.surface-glass`, `.control-glass`, `.surface-raised`,
-`.surface-nested`, `.card-fx`), scrims, form and component groups, the light sweep and the skeleton shimmer. It contains
+`.surface-nested`, `.card-fx`), scrims, form and component groups, the light sweep, the skeleton shimmer and tables (`.ds-table`, `.ds-table-scroll`, `.ds-table-label-first`). It contains
 no fonts: font roles are plain system stacks that a project points at its own families.
 
 ## Install
