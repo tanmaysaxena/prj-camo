@@ -570,6 +570,69 @@
   border-radius: 0;
 }
 
+/* Tables. A real <table> dressed as a quiet list: thin dividers above, between
+   and below the rows, no vertical rules, no fills. Header cells take the
+   caption-label voice; body cells read at body-md.
+   - .ds-table-scroll: optional wrapper that scrolls a wide table sideways
+     instead of widening the page.
+   - .ds-table: the table itself.
+   - .ds-table-label-first: a modifier that turns the first column into a
+     fixed-width muted label column (a timecode, a date, a short key) beside
+     the text columns.
+   Classes sit in `@layer components` like the ds-* text styles, so a caller's
+   plain utility (a color, a weight) still wins on the one property it names.
+   Colors come from tokens only; the divider is the light stroke at low alpha. */
+@layer components {
+  .ds-table-scroll {
+    overflow-x: auto;
+    margin-bottom: 1rem;
+  }
+  .ds-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    border-block: 1px solid color-mix(in srgb, var(--color-stroke-light) 20%, transparent);
+    font-family: var(--font-body);
+    font-size: var(--text-body-md);
+    line-height: var(--text-body-md--line-height);
+    color: var(--color-content-primary);
+  }
+  .ds-table th,
+  .ds-table td {
+    padding: 0.75rem 1rem 0.75rem 0;
+    vertical-align: top;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-stroke-light) 20%, transparent);
+  }
+  .ds-table tbody tr:last-child > th,
+  .ds-table tbody tr:last-child > td {
+    border-bottom: 0;
+  }
+  .ds-table th {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: var(--text-cap-label);
+    line-height: var(--text-cap-label--line-height);
+    letter-spacing: var(--text-cap-label--letter-spacing);
+    text-transform: uppercase;
+    color: var(--color-content-tertiary);
+  }
+  .ds-table th:last-child,
+  .ds-table td:last-child {
+    padding-right: 0;
+  }
+  .ds-table-label-first th:first-child,
+  .ds-table-label-first td:first-child {
+    width: 7rem;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: var(--text-cap-label);
+    line-height: var(--text-cap-label--line-height);
+    letter-spacing: var(--text-cap-label--letter-spacing);
+    text-transform: uppercase;
+    color: var(--color-content-tertiary);
+  }
+}
+
 /* Light-sweep capability: a light band a script moves left to right across
    whatever `.light-sweep-host` it is dropped into. The host supplies the
    positioning context and clips the band to its own shape; `.light-sweep`
